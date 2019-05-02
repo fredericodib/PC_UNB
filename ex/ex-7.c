@@ -26,8 +26,9 @@ void *barbeiros(void *arg){
 
   while (TRUE){
     sem_wait(&barb);
-    sleep(3);
-    printf("Barbeiro %d acabou de cortar o cabelo, foi dormir\n", id);
+    printf("\nBarbeiro %d acorda e vai cortar cabelo\n", id);
+    sleep(5);
+    printf("Barbeiro %d acabou de cortar o cabelo, foi dormir\n\n", id);
     sem_post(&cortando);
   }
 
