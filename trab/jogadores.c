@@ -1,6 +1,6 @@
 #include "jogadores.h"
 
-#define NOMES 64
+#define NOMES 66
 #define JOGADORES 10
 
 char nome[NOMES][30];
@@ -9,7 +9,7 @@ Jogador jogadores[JOGADORES];
 void inicializa_nomes() {
   strcpy(nome[0], "Mouts");
   strcpy(nome[1], "Fred");
-  strcpy(nome[2], "Fredysney");
+  strcpy(nome[2], "Fredisney");
   strcpy(nome[3], "Vidal");
   strcpy(nome[4], "Lucero");
   strcpy(nome[5], "Turing");
@@ -28,7 +28,7 @@ void inicializa_nomes() {
   strcpy(nome[18], "Cris");
   strcpy(nome[19], "Carla");
   strcpy(nome[20], "Pontes");
-  strcpy(nome[21], "Zorrom");
+  strcpy(nome[21], "Zorron");
   strcpy(nome[22], "Zorran");
   strcpy(nome[23], "Billy");
   strcpy(nome[24], "Juju");
@@ -65,12 +65,14 @@ void inicializa_nomes() {
   strcpy(nome[55], "Lamar");
   strcpy(nome[56], "Maquiavel");
   strcpy(nome[57], "BanBan");
-  strcpy(nome[58], "Cavral");
+  strcpy(nome[58], "Cabral");
   strcpy(nome[59], "Waldomiro");
   strcpy(nome[60], "Rods");
   strcpy(nome[61], "Focatia");
   strcpy(nome[62], "Jussara");
   strcpy(nome[63], "Freduardo");
+  strcpy(nome[64], "Wladimir");
+  strcpy(nome[65], "Babilonico");
 }
 
 int verifica_nome_repete(int i) {
@@ -90,6 +92,9 @@ void inicializa_jogadores() {
     jogadores[i].vida = 50;
     strcpy(jogadores[i].nome, nome[rand() % NOMES]);
     jogadores[i].arma.ataque = 5;
+    if (i == 6) {
+      strcpy(jogadores[i].nome, nome[30]);
+    }
     strcpy(jogadores[i].arma.nome, "Palmada");
     while(verifica_nome_repete(i) == -1) {
       strcpy(jogadores[i].nome, nome[rand() % NOMES]);

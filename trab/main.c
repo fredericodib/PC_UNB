@@ -20,7 +20,8 @@ Trabalho 1 - PROGRAMAÇÃO CONCORRENTE - 1/2019
 #include "comida.c"
 #include "jogadores.c"
 
-pthread_mutex_t turno = PTHREAD_MUTEX_INITIALIZER; /* lock pro contador*/
+pthread_mutex_t p_arma = PTHREAD_MUTEX_INITIALIZER; /* lock pro contador*/
+pthread_mutex_t p_comida = PTHREAD_MUTEX_INITIALIZER; /* lock pro contador*/
 
 void procura_arma(int id) {
   int id_arma;
@@ -62,9 +63,16 @@ void procura_comida(int id) {
   }
 }
 
-void verifica_se_vivo(int id) {
+void verifica_se_vivo_arma(int id) {
   if (jogadores[id].vida <= 0) {
-    pthread_mutex_unlock(&turno);
+    pthread_mutex_unlock(&p_arma);
+    pthread_exit(0);
+  }
+}
+
+void verifica_se_vivo_comida(int id) {
+  if (jogadores[id].vida <= 0) {
+    pthread_mutex_unlock(&p_comida);
     pthread_exit(0);
   }
 }
@@ -149,7 +157,8 @@ void *batalhas(void *arg) {
   while(TRUE) {
     sleep((rand() % 3) + 5);
 
-    pthread_mutex_lock(&turno);
+    pthread_mutex_lock(&p_arma);
+    pthread_mutex_lock(&p_comida);
     printf("\n\n\n\033[0;31m###############################################\033[0m\n");
     printf("Alarme tocou!! Para tudo!!!\n");
     checa_vencedor();
@@ -166,7 +175,8 @@ void *batalhas(void *arg) {
 
     checa_vencedor();
     printf("\033[0;31m###############################################\033[0m\n");
-    pthread_mutex_unlock(&turno);
+    pthread_mutex_unlock(&p_comida);
+    pthread_mutex_unlock(&p_arma);
   }
   pthread_exit(0);
 }
@@ -176,18 +186,18 @@ void *jogadores_func(void *arg) {
 
   while (TRUE) {
 
-    pthread_mutex_lock(&turno);
-    verifica_se_vivo(id);
+    pthread_mutex_lock(&p_arma);
+    verifica_se_vivo_arma(id);
     procura_arma(id);
-    pthread_mutex_unlock(&turno);
+    pthread_mutex_unlock(&p_arma);
 
     sleep(rand() % 5);
 
-    pthread_mutex_lock(&turno);
-    verifica_se_vivo(id);
+    pthread_mutex_lock(&p_comida);
+    verifica_se_vivo_comida(id);
     procura_comida(id);
-    verifica_se_vivo(id);
-    pthread_mutex_unlock(&turno);
+    verifica_se_vivo_comida(id);
+    pthread_mutex_unlock(&p_comida);
 
     sleep(rand() % 5);
   }
@@ -205,7 +215,8 @@ int main() {
   print_nome_jogadores();
   system("clear");
 
-  pthread_mutex_init(&turno, NULL);
+  pthread_mutex_init(&p_comida, NULL);
+  pthread_mutex_init(&p_arma, NULL);
 
   pthread_t jogador[JOGADORES], batalha[BATALHA];
   int i;

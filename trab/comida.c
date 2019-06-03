@@ -41,7 +41,7 @@ void inicializa_comidas() {
   comidas[6].quantidade = 2;
    
   comidas[7].id = 7;
-  strcpy(comidas[7].nome, "Frango com pele");
+  strcpy(comidas[7].nome, "Pele com frango");
   comidas[7].valor = -10;
   comidas[7].quantidade = 2;
    
